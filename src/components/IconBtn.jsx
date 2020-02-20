@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-
 import {TransparentBtn} from "./TransparentBtn";
 
 const IconTransparentBtn = styled(TransparentBtn)`
