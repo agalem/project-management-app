@@ -32,25 +32,57 @@ const BoardPage = () => {
             return;
         }
 
-        const column = state.columns[source.droppableId];
-        const newTasksIds = Array.from(column.taskIds);
-        newTasksIds.splice(source.index, 1);
-        newTasksIds.splice(destination.index, 0, draggableId);
+        const start = state.columns[source.droppableId];
+        const finish = state.columns[destination.droppableId];
+        let newState = {...state};
 
-        const newColumn = {
-            ...column,
-            taskIds: newTasksIds,
+        if(start === finish) {
+            const newTasksIds = Array.from(start.taskIds);
+            newTasksIds.splice(source.index, 1);
+            newTasksIds.splice(destination.index, 0, draggableId);
+
+            const newColumn = {
+                ...start,
+                taskIds: newTasksIds,
+            };
+
+            newState = {
+                ...state,
+                columns: {
+                    ...state.columns,
+                    [newColumn.id]: newColumn,
+                },
+            };
+            setState(newState);
+            //call endpoint the reorder was made
+            return;
+        }
+
+        //handling task movement between columns
+        const startTaskIds = Array.from(start.taskIds);
+        startTaskIds.splice(source.index, 1);
+        const newStart = {
+            ...start,
+            taskIds: startTaskIds
         };
 
-        const newState = {
+        const finishTaskIds = Array.from(finish.taskIds);
+        finishTaskIds.splice(destination.index, 0, draggableId);
+        const newFinish = {
+            ...finish,
+            taskIds: finishTaskIds,
+        };
+
+        newState = {
             ...state,
             columns: {
                 ...state.columns,
-                [newColumn.id]: newColumn,
+                [newStart.id]: newStart,
+                [newFinish.id]: newFinish,
             },
         };
-
         setState(newState);
+
     };
 
     return (
