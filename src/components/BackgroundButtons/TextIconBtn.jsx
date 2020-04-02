@@ -17,7 +17,7 @@ const TextIconTransparentBtn = styled(TransparentBtn)`
     }
 `;
 
-const TextIconBtn = (props) => {
+const TextIconBtn = React.memo((props) => {
     const { Icon, text } = props;
     return (
         <TextIconTransparentBtn>
@@ -25,6 +25,6 @@ const TextIconBtn = (props) => {
             {text}
         </TextIconTransparentBtn>
     )
-};
+});
 
 export default TextIconBtn;

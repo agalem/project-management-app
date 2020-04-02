@@ -9,13 +9,13 @@ const TextTransparentBtn = styled(TransparentBtn)`
     max-width: 150px;
 `;
 
-const TextBtn = (props) => {
+const TextBtn = React.memo((props) => {
     const {text} = props;
     return (
         <TextTransparentBtn>
             {text}
         </TextTransparentBtn>
     )
-}
+});
 
 export default TextBtn;

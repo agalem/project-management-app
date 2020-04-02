@@ -10,13 +10,13 @@ const IconTransparentBtn = styled(TransparentBtn)`
 `;
 
 
-const IconBtn = (props) => {
-    const {Icon} = props;
+const IconBtn = React.memo((props) => {
+    const {Icon, color, iconBackground} = props;
     return (
         <IconTransparentBtn>
-            <Icon/>
+            <Icon style={{color, iconBackground}}/>
         </IconTransparentBtn>
     )
-};
+});
 
 export default IconBtn;

@@ -23,13 +23,13 @@ const StyledLink = styled(Link)`
 `;
 
 
-const IconLink = (props) => {
+const IconLink = React.memo((props) => {
     const {Icon} = props;
     return (
         <StyledLink to={"/"}>
             <Icon/>
         </StyledLink>
     )
-};
+});
 
 export default IconLink;

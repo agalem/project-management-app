@@ -1,13 +1,17 @@
 import React, {useState} from "react";
 import styled from "styled-components";
-import NavBar from "../components/NavBar";
-import Card from "../components/Card";
+
+import BoardHeader from "../components/BoardHeader/BoardHeader";
+import Card from "../components/BoardElements/Card";
+
 import {DragDropContext} from "react-beautiful-dnd";
 
 import {initial} from "../initial-data";
 
 const PageContainer = styled.div`
-    
+    min-height: 100vh;
+    height: 100%;
+    margin: 0 10px;
 `;
 
 const CardsContainer = styled.div`
@@ -87,8 +91,7 @@ const BoardPage = () => {
 
     return (
         <PageContainer>
-            <NavBar>
-            </NavBar>
+            <BoardHeader/>
             <CardsContainer>
                 <DragDropContext
                     onDragEnd={onDragEnd}

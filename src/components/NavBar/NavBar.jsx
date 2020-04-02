@@ -1,10 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 
-import IconBtn from './IconBtn';
-import IconLink from "./IconLink";
-import TextBtn from "./TextBtn";
-import TextIconBtn from "./TextIconBtn";
+import IconBtn from '../BackgroundButtons/IconBtn';
+import IconLink from "../BackgroundButtons/IconLink";
+import TextBtn from "../BackgroundButtons/TextBtn";
+import TextIconBtn from "../BackgroundButtons/TextIconBtn";
+import SearchField from "../SearchField/SearchField";
 
 import {Delete} from '@material-ui/icons';
 import {HomeOutlined} from '@material-ui/icons';
@@ -27,6 +28,7 @@ const Section = styled.div`
 `;
 
 
+
 const NavBar = () => {
     return (
         <Nav>
@@ -35,6 +37,7 @@ const NavBar = () => {
                 <IconLink Icon={HomeOutlined}/>
                 <TextBtn text={"Text"}/>
                 <TextIconBtn text={"Text goes here"} Icon={AssignmentOutlined}/>
+                <SearchField/>
             </Section>
             <Section/>
             <Section/>
