@@ -10,9 +10,10 @@ const TextIconTransparentBtn = styled(TransparentBtn)`
     justify-content: center;
     padding-left: 5px;
     padding-right: 5px;
+    
     & svg {
         font-size: 20px;
-        color: white;
+        color: #fff;
         margin-right: 5px;
     }
 `;

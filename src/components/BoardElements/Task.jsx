@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import {Draggable} from "react-beautiful-dnd";
 
 import CreateIcon from '@material-ui/icons/Create';
-import VisibilityIcon from '@material-ui/icons/Visibility';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import SubjectIcon from '@material-ui/icons/Subject';
 import CommentIcon from '@material-ui/icons/Comment';
@@ -40,8 +39,9 @@ const TaskContainer = styled.div`
     border: none;
     border-radius: 5px;
     box-shadow: 0 1px #8a8c8e;
-    margin: 5px 0;
-    background-color: ${props => (props.isDragging ? 'yellow' : '#fff')};
+    margin: 5px 3px;
+    margin-right: 5px;
+    background-color: ${props => (props.isDragging ? '#baedff' : '#fff')};
     position: relative;
     & ${EditBtn} {
         display: none;
@@ -103,7 +103,6 @@ const Task = (props) => {
                     </EditBtn>
                     {task.content}
                     <TaskFooter>
-                        <SmallIcon Icon={VisibilityIcon}/>
                         <RowContainer>
                             <SmallIcon Icon={ScheduleIcon} isInside/>
                             <p>19 kwi</p>

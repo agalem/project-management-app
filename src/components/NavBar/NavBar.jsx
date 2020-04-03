@@ -19,6 +19,10 @@ const Nav = styled.nav`
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
 `;
 
 const Section = styled.div`

@@ -4,8 +4,11 @@ import {Droppable} from "react-beautiful-dnd";
 
 import Task from "./Task";
 import CloseIcon from '@material-ui/icons/Close';
+import AddIcon from '@material-ui/icons/Add';
 import SmallIconBtn from "../ButtonsWithoutBackground/SmallIconBtn";
 import InputBase from "@material-ui/core/InputBase";
+import TextIconLink from "../BackgroundButtons/TextIconLink";
+
 
 const CardHeader = styled.div`
     margin: 6px;
@@ -22,7 +25,9 @@ const CardTitle = styled.h2`
 const CardContainer = styled.div`
     background-color: #ebecf0;
     width: 260px;
-    max-height: 100%;
+    min-width: 240px;
+    height: 100%;
+    max-height: 75vh;
     margin: 10px 5px;
     padding: 5px;
     border-radius: 5px;
@@ -32,12 +37,34 @@ const CardContainer = styled.div`
 
 const TaskList = styled.div`
     height: 100%;
+    overflow-y: scroll;
+    overflow: -moz-scrollbars-vertical; 
+    min-height: 150px;
+    -webkit-overflow-scrolling: touch;
+    -webkit-transform: translateZ(0);
+    -webkit-overflow-scrolling: initial;
+    &::-webkit-scrollbar {
+        width: 8px;
+    }
+    &::-webkit-scrollbar-track-piece {
+        background-color: rgba(9,30,66,.08);
+        border-radius: 5px;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: #babdc4;
+        border-radius: 5px;
+    }
 `;
 
 const StyledInput = styled(InputBase)`
     width: 100%;
     background-color: #fff;
 `;
+
+const CardFooter = styled.div`
+    margin: 3px 0;
+`;
+
 
 class InnerList extends React.Component {
     shouldComponentUpdate(nextProps) {
@@ -97,6 +124,13 @@ const Card = (props) => {
                     </TaskList>
                 )}
             </Droppable>
+            <CardFooter>
+                <TextIconLink Icon={AddIcon} text={'Add new task'}
+                              color={'#5e6c84'}
+                              hoverColor={'#172b4d'}
+                              hoverBackground={'rgba(9,30,66,.08)'}
+                />
+            </CardFooter>
         </CardContainer>
     )
 };

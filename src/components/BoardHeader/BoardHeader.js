@@ -6,7 +6,7 @@ import IconBtn from "../BackgroundButtons/IconBtn";
 import StarBorderIcon from '@material-ui/icons/StarBorder'
 
 const HeaderContainer = styled.div`
-    width: 100%;
+    width: 90%;
     padding: 10px;
     display: flex;
     flex-direction: row;

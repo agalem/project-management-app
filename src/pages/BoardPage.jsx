@@ -3,20 +3,33 @@ import styled from "styled-components";
 
 import BoardHeader from "../components/BoardHeader/BoardHeader";
 import Card from "../components/BoardElements/Card";
+import SlideMenu from "../components/SlideMenu/SlideMenu";
 
 import {DragDropContext} from "react-beautiful-dnd";
 
 import {initial} from "../initial-data";
 
 const PageContainer = styled.div`
-    min-height: 100vh;
-    height: 100%;
-    margin: 0 10px;
+    min-height: calc(100vh - 50px);
+    height: fit-content;
+    min-width: 100%;
+    width: 100vw;
+    margin: 0;
+    padding: 50px 10px 0 10px;
+    background-color: purple;
+`;
+
+const Content = styled.div`
+    padding-right:40px;
+    padding-left: 10px;
 `;
 
 const CardsContainer = styled.div`
     display: flex;
     flex-direction: row;
+    min-width: 100%;
+    width: fit-content;
+    margin-right: 30px;
 `;
 
 const BoardPage = () => {
@@ -91,19 +104,22 @@ const BoardPage = () => {
 
     return (
         <PageContainer>
-            <BoardHeader/>
-            <CardsContainer>
-                <DragDropContext
-                    onDragEnd={onDragEnd}
-                >
-                    {state.columnOrder.map(columnId => {
-                        const column = state.columns[columnId];
-                        const tasks = column.taskIds.map(taskId => state.tasks[taskId]);
+            <Content>
+                <BoardHeader/>
+                <CardsContainer>
+                    <DragDropContext
+                        onDragEnd={onDragEnd}
+                    >
+                        {state.columnOrder.map(columnId => {
+                            const column = state.columns[columnId];
+                            const tasks = column.taskIds.map(taskId => state.tasks[taskId]);
 
-                        return <Card key={column.id} column={column} tasks={tasks}/>
-                    })}
-                </DragDropContext>
-            </CardsContainer>
+                            return <Card key={column.id} column={column} tasks={tasks}/>
+                        })}
+                    </DragDropContext>
+                </CardsContainer>
+            </Content>
+            <SlideMenu/>
         </PageContainer>
     )
 }
