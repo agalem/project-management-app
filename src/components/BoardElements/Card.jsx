@@ -27,7 +27,7 @@ const CardContainer = styled.div`
     width: 260px;
     min-width: 240px;
     height: 100%;
-    max-height: 75vh;
+    max-height: 100%;
     margin: 10px 5px;
     padding: 5px;
     border-radius: 5px;
@@ -37,8 +37,12 @@ const CardContainer = styled.div`
 
 const TaskList = styled.div`
     height: 100%;
-    overflow-y: scroll;
-    overflow: -moz-scrollbars-vertical; 
+    min-height: 50px;
+`;
+
+/*
+overflow-y: scroll;
+    overflow: -moz-scrollbars-vertical;
     min-height: 150px;
     -webkit-overflow-scrolling: touch;
     -webkit-transform: translateZ(0);
@@ -54,7 +58,7 @@ const TaskList = styled.div`
         background: #babdc4;
         border-radius: 5px;
     }
-`;
+ */
 
 const StyledInput = styled(InputBase)`
     width: 100%;
