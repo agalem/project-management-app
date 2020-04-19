@@ -10,18 +10,21 @@ import {DragDropContext} from "react-beautiful-dnd";
 import {initial} from "../initial-data";
 
 const PageContainer = styled.div`
-    min-height: calc(100vh - 50px);
-    height: fit-content;
+    height: calc(100vh - 50px);
     min-width: 100%;
-    width: 100vw;
+    width: fit-content;
+    max-width: 100vw;
+    overflow: hidden;
     margin: 0;
     padding: 50px 10px 0 10px;
     background-color: purple;
+    display: flex;
+    flex-direction: row;
 `;
 
 const Content = styled.div`
-    padding-right:40px;
-    padding-left: 10px;
+    width: 100%;
+    overflow-x: scroll;
 `;
 
 const CardsContainer = styled.div`

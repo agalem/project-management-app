@@ -47,7 +47,7 @@ const TaskList = styled.div`
         width: 8px;
     }
     &::-webkit-scrollbar-track-piece {
-        background-color: rgba(9,30,66,.08);
+        background-color: ${props => props.isScrollable ? 'rgba(9,30,66,.08)' : 'transparent'};
         border-radius: 5px;
     }
     &::-webkit-scrollbar-thumb {
@@ -115,6 +115,7 @@ const Card = (props) => {
             <Droppable droppableId={column.id}>
                 {(provided, snapshot) => (
                     <TaskList
+                        isScrollable={tasks.length > 2 ? 1 : 0}
                         ref={provided.innerRef}
                         isDraggingOver={snapshot.isDraggingOver}
                         {...provided.droppableProps}
