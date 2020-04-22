@@ -1,6 +1,10 @@
 import styled from "styled-components";
 import {CirclePicker} from "react-color";
 
+const FormTitle = styled.h2`
+    margin: 0;
+    max-width: 93%;
+`;
 
 const TextInput = styled.input`
     display: block;
@@ -66,6 +70,7 @@ const Button = styled.button`
 
 const DateInput = styled(TextInput)`
     font-size: 14px;
+    padding-left: 5px;
 `;
 
 const Row = styled.div`
@@ -89,12 +94,23 @@ const SubtaskList = styled.ul`
     width: 240px;
 `;
 
-const SubtaskContainer = styled.li`
+const Subtask = styled.li`
     display: block;
     border: 1px solid #60a4f7;
     border-radius: 4px;
     width: 100%;
     padding:5px;  
+    cursor: pointer;
 `;
 
-export {TextInput, TextArea, StyledCirclePicker, SubmitBtn, BtnsRow, Button, DateInput, Row, BtnSmall, SubtaskContainer, SubtaskList}
+const Comment = styled.div`
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #60a4f7;
+    width: 230px;
+    border-radius: 8px;
+    -moz-border-radius-bottomleft: 0;
+    border-bottom-left-radius: 0;
+`;
+
+export {FormTitle,TextInput, TextArea, StyledCirclePicker, SubmitBtn, BtnsRow, Button, DateInput, Row, BtnSmall, Subtask, SubtaskList, Comment}

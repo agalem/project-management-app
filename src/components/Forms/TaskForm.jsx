@@ -1,10 +1,15 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {toast} from "react-toastify";
-import {TextInput, TextArea, BtnsRow, SubmitBtn, Button, DateInput, Row, BtnSmall, SubtaskContainer, SubtaskList} from "./FormElements";
+import {FormTitle, TextInput, TextArea, BtnsRow, SubmitBtn, Button, DateInput, Row, BtnSmall, Subtask, SubtaskList, Comment} from "./FormElements";
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+
+import {subtasks_inital} from "./subtasks-initial-data";
 
 const TaskForm = () => {
     const [titleValue, setTitleValue] = useState("");
     const [startDate, setStartDate] = useState(new Date());
+    const [subtasks, setSubtasks] = useState(subtasks_inital.subtasks);
+    const [comments, setComments] = useState(subtasks_inital.comments);
 
     const handleChange = () =>{
 
@@ -15,10 +20,23 @@ const TaskForm = () => {
         toast("Submitted");
     };
 
+    const onDragEnd = () => {
+
+    };
+
+    useEffect(() => {
+        console.log(subtasks);
+
+    }, [])
+
     return (
         <React.Fragment>
-            <h2>Title</h2>
+            <FormTitle>Title</FormTitle>
             <form onSubmit={handleSubmit}>
+                <BtnsRow style={{marginBottom: 15, marginTop: -20}}>
+                    <SubmitBtn type="submit" value="Apply" />
+                    <Button onClick={(e) => e.preventDefault()}>Close</Button>
+                </BtnsRow>
                 <label>
                     Title
                     <TextInput type="text" value={titleValue} onChange={handleChange} />
@@ -40,12 +58,43 @@ const TaskForm = () => {
                         Subtasks
                         <BtnSmall onClick={(e) => e.preventDefault()}>+ add new</BtnSmall>
                     </Row>
-                    <SubtaskList>
-                        <SubtaskContainer>Task 1</SubtaskContainer>
-                        <SubtaskContainer>Task 2</SubtaskContainer>
-                    </SubtaskList>
+                    <DragDropContext onDragEnd={onDragEnd}>
+                        <Droppable droppableId={'subtasks'}>
+                            {(provided, snapshot) => (
+                                <SubtaskList
+                                    {...provided.droppableProps}
+                                    ref={provided.innerRef}
+                                >
+                                    {subtasks.map((elem, index) => (
+                                        <Draggable key={elem.id} draggableId={elem.id} index={index}>
+                                            {(provided, snapshot) => (
+                                                <Subtask
+                                                    ref={provided.innerRef}
+                                                    {...provided.draggableProps}
+                                                    {...provided.dragHandleProps}
+                                                >
+                                                    {elem.content}
+                                                </Subtask>
+                                            )}
+                                        </Draggable>
+                                    ))}
+                                </SubtaskList>
+                            )}
+                        </Droppable>
+                    </DragDropContext>
                 </label>
-                <BtnsRow>
+                <label>
+                    <Row>
+                        Comments
+                        <BtnSmall onClick={(e) => e.preventDefault()}>+ add new</BtnSmall>
+                    </Row>
+                    {comments.map((comment, index) => {
+                        return <Comment key={index}>
+                            { comment.content }
+                        </Comment>
+                    })}
+                </label>
+                <BtnsRow style={{ marginBottom: 40 }}>
                     <SubmitBtn type="submit" value="Apply" />
                     <Button onClick={(e) => e.preventDefault()}>Close</Button>
                 </BtnsRow>

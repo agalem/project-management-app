@@ -15,6 +15,7 @@ const FormContainer = styled.div`
     padding:0;
     box-shadow: -4px 4px #000;
     padding: 10px;
+    overflow-y: scroll;
 `;
 
 
