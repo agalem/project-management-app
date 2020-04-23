@@ -11,9 +11,9 @@ const IconTransparentBtn = styled(TransparentBtn)`
 
 
 const IconBtn = React.memo((props) => {
-    const {Icon, color, iconBackground} = props;
+    const {Icon, color, iconBackground, onClick} = props;
     return (
-        <IconTransparentBtn>
+        <IconTransparentBtn onClick={onClick}>
             <Icon style={{color, iconBackground}}/>
         </IconTransparentBtn>
     )

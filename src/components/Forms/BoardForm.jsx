@@ -16,7 +16,6 @@ const BoardForm = () => {
 
     return (
         <React.Fragment>
-            <h2>Title</h2>
             <form onSubmit={handleSubmit}>
                 <label>
                     Title

@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import FavoriteBoardBtn from "../FavoriteBoardBtn/FavoriteBoardBtn";
+
 import BoardTitle from '../BoardTitle/BoardTitle';
 import IconBtn from "../BackgroundButtons/IconBtn";
 import StarBorderIcon from '@material-ui/icons/StarBorder'
@@ -18,7 +20,7 @@ const BoardHeader = () => {
     return (
         <HeaderContainer>
             <BoardTitle title={'aplikacja kanban'}/>
-            <IconBtn Icon={StarBorderIcon} color={'yellow'}/>
+            <FavoriteBoardBtn/>
         </HeaderContainer>
     )
 };

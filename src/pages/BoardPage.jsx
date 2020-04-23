@@ -3,13 +3,15 @@ import styled from "styled-components";
 
 import BoardHeader from "../components/BoardHeader/BoardHeader";
 import Card from "../components/BoardElements/Card";
-import SlideMenu from "../components/SlideMenu/SlideMenu";
+import SideMenu from "../components/SideMenu/SideMenu";
+
+import {SideMenuProvider} from "../contexts/SideMenuContext";
 
 import {DragDropContext} from "react-beautiful-dnd";
 
 import {initial} from "../initial-data";
 
-const PageContainer = styled.div`
+const PageContainer = styled.section`
     height: calc(100vh - 50px);
     min-width: 100%;
     width: fit-content;
@@ -107,22 +109,24 @@ const BoardPage = () => {
 
     return (
         <PageContainer>
-            <Content>
-                <BoardHeader/>
-                <CardsContainer>
-                    <DragDropContext
-                        onDragEnd={onDragEnd}
-                    >
-                        {state.columnOrder.map(columnId => {
-                            const column = state.columns[columnId];
-                            const tasks = column.taskIds.map(taskId => state.tasks[taskId]);
+            <SideMenuProvider>
+                <Content>
+                    <BoardHeader/>
+                    <CardsContainer>
+                        <DragDropContext
+                            onDragEnd={onDragEnd}
+                        >
+                            {state.columnOrder.map(columnId => {
+                                const column = state.columns[columnId];
+                                const tasks = column.taskIds.map(taskId => state.tasks[taskId]);
 
-                            return <Card key={column.id} column={column} tasks={tasks}/>
-                        })}
-                    </DragDropContext>
-                </CardsContainer>
-            </Content>
-            <SlideMenu/>
+                                return <Card key={column.id} column={column} tasks={tasks}/>
+                            })}
+                        </DragDropContext>
+                    </CardsContainer>
+                </Content>
+                <SideMenu/>
+            </SideMenuProvider>
         </PageContainer>
     )
 }

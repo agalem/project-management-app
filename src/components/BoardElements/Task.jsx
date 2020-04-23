@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from 'styled-components';
 import {Draggable} from "react-beautiful-dnd";
 
@@ -7,6 +7,8 @@ import ScheduleIcon from '@material-ui/icons/Schedule';
 import SubjectIcon from '@material-ui/icons/Subject';
 import CommentIcon from '@material-ui/icons/Comment';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import {SideMenuContext} from "../../contexts/SideMenuContext";
+import {types} from "../../types";
 
 const EditBtn = styled.button`
     position: absolute;
@@ -88,7 +90,16 @@ const SmallIcon = props => {
 };
 
 const Task = (props) => {
+    const sideMenuContext = useContext(SideMenuContext)
+
     const {task, index} = props;
+
+    const handleClick = (e) => {
+        e.preventDefault();
+        sideMenuContext.setVisible(true);
+        sideMenuContext.setContentType(types.FORM.TASK);
+    };
+
     return (
         <Draggable draggableId={task.id} index={index}>
             {(provided, snapshot) => (
@@ -98,7 +109,7 @@ const Task = (props) => {
                     ref={provided.innerRef}
                     isDragging={snapshot.isDragging}
                 >
-                    <EditBtn>
+                    <EditBtn onClick={handleClick}>
                         <StyledEditIcon/>
                     </EditBtn>
                     {task.content}

@@ -34,4 +34,10 @@ export const initial = {
         }
     },
     columnOrder: ['column-1', 'column-2', "column-3", "column-4"],
+    boards: [
+        {
+            id: 'board-1',
+            title: 'Aplikacja Kanban'
+        }
+    ]
 };

@@ -1,15 +1,23 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import {toast} from "react-toastify";
-import {FormTitle, TextInput, TextArea, BtnsRow, SubmitBtn, Button, DateInput, Row, BtnSmall, Subtask, SubtaskList, Comment} from "./FormElements";
+import { TextInput, TextArea, BtnsRow, SubmitBtn, Button, DateInput, Row, BtnSmall, Subtask, SubtaskList, Comment, SubtaskButton, SubtaskBtnsContainer, SubtaskText} from "./FormElements";
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
-import {subtasks_inital} from "./subtasks-initial-data";
+import {form_inital} from "./subtasks-initial-data";
+import {SideMenuContext} from "../../contexts/SideMenuContext";
+
+import DeleteIcon from '@material-ui/icons/Delete';
+import DoneIcon from '@material-ui/icons/Done';
+import ClearIcon from '@material-ui/icons/Clear';
 
 const TaskForm = () => {
+    const sideMenuContext = useContext(SideMenuContext);
+
     const [titleValue, setTitleValue] = useState("");
     const [startDate, setStartDate] = useState(new Date());
-    const [subtasks, setSubtasks] = useState(subtasks_inital.subtasks);
-    const [comments, setComments] = useState(subtasks_inital.comments);
+    const [subtasks, setSubtasks] = useState(form_inital.subtasks);
+    const [subtasksOrder, setSubtasksOrder] = useState(form_inital.subtaskOrder);
+    const [comments, setComments] = useState(form_inital.comments);
 
     const handleChange = () =>{
 
@@ -20,22 +28,74 @@ const TaskForm = () => {
         toast("Submitted");
     };
 
-    const onDragEnd = () => {
+    const onDragEnd = result => {
+        const {destination, source, draggableId} = result;
 
+        if (!destination) {
+            return;
+        }
+
+        if (
+            destination.index === source.index
+        ) {
+            return;
+        }
+
+        const newSubtasksIds = Array.from(subtasksOrder);
+
+        newSubtasksIds.splice(source.index, 1);
+        newSubtasksIds.splice(destination.index, 0, draggableId);
+
+        setSubtasksOrder(newSubtasksIds);
     };
 
     useEffect(() => {
         console.log(subtasks);
 
-    }, [])
+    }, []);
+
+    const handleClose = (e) => {
+        e.preventDefault();
+        sideMenuContext.setVisible(false);
+    };
+
+    const removeSubtask = subtaskId => e => {
+        e.preventDefault();
+
+        const newSubtasksIds = Array.from(subtasksOrder);
+        const subtaskIndex = newSubtasksIds.indexOf(subtaskId);
+
+        newSubtasksIds.splice(subtaskIndex, 1);
+
+        setSubtasksOrder(newSubtasksIds);
+    };
+
+    const markSubtaskDone = subtaskId => e => {
+        e.preventDefault();
+
+        const newSubtasks = {...subtasks};
+
+        newSubtasks[subtaskId].done = true;
+
+        setSubtasks(newSubtasks);
+    };
+
+    const unmarkSubtaskDone = subtaskId => e => {
+        e.preventDefault();
+
+        const newSubtasks = {...subtasks};
+
+        newSubtasks[subtaskId].done = false;
+
+        setSubtasks(newSubtasks);
+    };
 
     return (
         <React.Fragment>
-            <FormTitle>Title</FormTitle>
             <form onSubmit={handleSubmit}>
-                <BtnsRow style={{marginBottom: 15, marginTop: -20}}>
+                <BtnsRow style={{marginBottom: 15}}>
                     <SubmitBtn type="submit" value="Apply" />
-                    <Button onClick={(e) => e.preventDefault()}>Close</Button>
+                    <Button onClick={handleClose}>Close</Button>
                 </BtnsRow>
                 <label>
                     Title
@@ -64,20 +124,38 @@ const TaskForm = () => {
                                 <SubtaskList
                                     {...provided.droppableProps}
                                     ref={provided.innerRef}
+                                    style={{ marginBottom: snapshot.isDraggingOver ? '36px' : '0px' }}
                                 >
-                                    {subtasks.map((elem, index) => (
-                                        <Draggable key={elem.id} draggableId={elem.id} index={index}>
-                                            {(provided, snapshot) => (
-                                                <Subtask
-                                                    ref={provided.innerRef}
-                                                    {...provided.draggableProps}
-                                                    {...provided.dragHandleProps}
-                                                >
-                                                    {elem.content}
-                                                </Subtask>
-                                            )}
-                                        </Draggable>
-                                    ))}
+                                    {subtasksOrder.map((subtaskId, index) => {
+                                        const subtask = subtasks[subtaskId];
+
+                                        return (
+                                            <Draggable key={subtaskId} draggableId={subtaskId} index={index}>
+                                                {(provided, snapshot) => (
+                                                    <Subtask
+                                                        ref={provided.innerRef}
+                                                        {...provided.draggableProps}
+                                                        {...provided.dragHandleProps}
+                                                        done={subtask.done}
+                                                    >
+                                                        <SubtaskText done={subtask.done}>
+                                                        {subtask.content}
+                                                        </SubtaskText>
+
+                                                        <SubtaskBtnsContainer>
+                                                            <SubtaskButton onClick={removeSubtask(subtaskId)}>
+                                                                <DeleteIcon/>
+                                                            </SubtaskButton>
+                                                            <SubtaskButton onClick={subtask.done ? unmarkSubtaskDone(subtaskId) : markSubtaskDone(subtaskId)}>
+                                                                {!subtask.done && <DoneIcon/>}
+                                                                {subtask.done  && <ClearIcon/>}
+                                                            </SubtaskButton>
+                                                        </SubtaskBtnsContainer>
+                                                    </Subtask>
+                                                )}
+                                            </Draggable>
+                                        )
+                                    })}
                                 </SubtaskList>
                             )}
                         </Droppable>
