@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {toast} from "react-toastify";
-import {TextInput, TextArea, StyledCirclePicker, BtnsRow, SubmitBtn, Button} from "./FormElements";
+import {TextInput, TextArea, StyledCirclePicker, BtnsRow, SubmitBtn, Button} from "./FormUIElements";
 
 const BoardForm = () => {
     const [titleValue, setTitleValue] = useState("");

@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useContext} from "react";
 import {toast} from "react-toastify";
-import { TextInput, TextArea, BtnsRow, SubmitBtn, Button, DateInput, Row, BtnSmall, Subtask, SubtaskList, Comment, SubtaskButton, SubtaskBtnsContainer, SubtaskText} from "./FormElements";
+import { TextInput, TextArea, BtnsRow, SubmitBtn, Button, DateInput, Row, BtnSmall, Subtask, SubtaskList, Comment, SubtaskButton, SubtaskBtnsContainer, SubtaskText} from "./FormUIElements";
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 import {form_inital} from "./subtasks-initial-data";
@@ -9,6 +9,8 @@ import {SideMenuContext} from "../../contexts/SideMenuContext";
 import DeleteIcon from '@material-ui/icons/Delete';
 import DoneIcon from '@material-ui/icons/Done';
 import ClearIcon from '@material-ui/icons/Clear';
+
+import Input from "./Input";
 
 const TaskForm = () => {
     const sideMenuContext = useContext(SideMenuContext);
@@ -97,10 +99,15 @@ const TaskForm = () => {
                     <SubmitBtn type="submit" value="Apply" />
                     <Button onClick={handleClose}>Close</Button>
                 </BtnsRow>
-                <label>
-                    Title
-                    <TextInput type="text" value={titleValue} onChange={handleChange} />
-                </label>
+                <Input
+                    ComponentType={TextInput}
+                    element={"input"}
+                    id={"title"}
+                    type="text"
+                    label={"Title"}
+                    validators={[]}
+
+                />
                 <label>
                     Description
                     <TextArea />
@@ -110,7 +117,6 @@ const TaskForm = () => {
                     <DateInput
                         type="datetime-local"
                         defaultValue={startDate}
-
                     />
                 </label>
                 <label>

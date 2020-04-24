@@ -3,7 +3,8 @@ import styled from "styled-components";
 
 import { initial } from "../initial-data";
 
-import BoardPreview from "../components/BoardPreview/BoardPreview";
+import NavBar from "../components/NavBar/NavBar";
+import BoardsList from "../components/BoardsList/BoardsList";
 
 const PageContainer = styled.section`
     margin: 0;
@@ -14,12 +15,13 @@ const HomePage = () => {
     const [boards, ] = useState(initial.boards);
 
     return (
-        <PageContainer>
-            <h1>Home page</h1>
-            {boards.map((board) => {
-                return <BoardPreview title={board.title} key={board.id}/>
-            })}
-        </PageContainer>
+        <React.Fragment>
+            <NavBar/>
+            <PageContainer>
+                <h1>Home page</h1>
+                <BoardsList boards={boards}/>
+            </PageContainer>
+        </React.Fragment>
     )
 };
 

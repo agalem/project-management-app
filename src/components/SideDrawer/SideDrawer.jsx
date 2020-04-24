@@ -4,6 +4,10 @@ import styled from "styled-components";
 import {SideMenuContext} from "../../contexts/SideMenuContext";
 import TaskForm from "../Forms/TaskForm";
 
+import Hidden from "@material-ui/core/Hidden";
+import Drawer from "@material-ui/core/Drawer";
+import Task from "../UIComponents/BoardElements/Task";
+
 const FormContainer = styled.div`
     position: relative;
     width: ${props => props.isVisible ? '380px' : '0px'};
@@ -20,8 +24,7 @@ const FormContainer = styled.div`
     transition: all 0.3s;
 `;
 
-
-const SideMenu = () => {
+const SideDrawer = () => {
     const sideMenuContext = useContext(SideMenuContext);
 
     return (
@@ -31,4 +34,4 @@ const SideMenu = () => {
     )
 };
 
-export default SideMenu;
+export default SideDrawer;

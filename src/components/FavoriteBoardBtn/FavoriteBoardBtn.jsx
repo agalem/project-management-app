@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import IconBtn from "../BackgroundButtons/IconBtn";
+import IconBtn from "../UIComponents/BackgroundButtons/IconBtn";
 import StarBorderIcon from '@material-ui/icons/StarBorder'
 import StarIcon from '@material-ui/icons/Star';
 import {Star} from "@material-ui/icons";

@@ -1,9 +1,10 @@
 import React, {useState} from "react";
 import styled from "styled-components";
 
+import NavBar from "../components/NavBar/NavBar";
 import BoardHeader from "../components/BoardHeader/BoardHeader";
-import Card from "../components/BoardElements/Card";
-import SideMenu from "../components/SideMenu/SideMenu";
+import Card from "../components/UIComponents/BoardElements/Card";
+import SideDrawer from "../components/SideDrawer/SideDrawer";
 
 import {SideMenuProvider} from "../contexts/SideMenuContext";
 
@@ -13,9 +14,9 @@ import {initial} from "../initial-data";
 
 const PageContainer = styled.section`
     height: calc(100vh - 50px);
-    min-width: 100%;
+    min-width: calc(100vw - 20px);
     width: fit-content;
-    max-width: 100vw;
+    max-width: calc(100vw - 20px);
     overflow: hidden;
     margin: 0;
     padding: 50px 10px 0 10px;
@@ -36,6 +37,7 @@ const CardsContainer = styled.div`
     width: fit-content;
     margin-right: 30px;
 `;
+
 
 const BoardPage = () => {
     const [state, setState] = useState(initial);
@@ -108,26 +110,29 @@ const BoardPage = () => {
     };
 
     return (
-        <PageContainer>
-            <SideMenuProvider>
-                <Content>
-                    <BoardHeader/>
-                    <CardsContainer>
-                        <DragDropContext
-                            onDragEnd={onDragEnd}
-                        >
-                            {state.columnOrder.map(columnId => {
-                                const column = state.columns[columnId];
-                                const tasks = column.taskIds.map(taskId => state.tasks[taskId]);
+        <React.Fragment>
+            <NavBar/>
+            <PageContainer>
+                <SideMenuProvider>
+                    <Content>
+                        <BoardHeader/>
+                        <CardsContainer>
+                            <DragDropContext
+                                onDragEnd={onDragEnd}
+                            >
+                                {state.columnOrder.map(columnId => {
+                                    const column = state.columns[columnId];
+                                    const tasks = column.taskIds.map(taskId => state.tasks[taskId]);
 
-                                return <Card key={column.id} column={column} tasks={tasks}/>
-                            })}
-                        </DragDropContext>
-                    </CardsContainer>
-                </Content>
-                <SideMenu/>
-            </SideMenuProvider>
-        </PageContainer>
+                                    return <Card key={column.id} column={column} tasks={tasks}/>
+                                })}
+                            </DragDropContext>
+                        </CardsContainer>
+                    </Content>
+                    <SideDrawer/>
+                </SideMenuProvider>
+            </PageContainer>
+        </React.Fragment>
     )
 }
 

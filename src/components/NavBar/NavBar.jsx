@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 
-import IconBtn from '../BackgroundButtons/IconBtn';
-import IconLink from "../BackgroundButtons/IconLink";
-import TextBtn from "../BackgroundButtons/TextBtn";
-import TextIconBtn from "../BackgroundButtons/TextIconBtn";
+import IconBtn from '../UIComponents/BackgroundButtons/IconBtn';
+import IconLink from "../UIComponents/BackgroundButtons/IconLink";
+import TextBtn from "../UIComponents/BackgroundButtons/TextBtn";
+import TextIconBtn from "../UIComponents/BackgroundButtons/TextIconBtn";
 import SearchField from "../SearchField/SearchField";
 
 import {Delete} from '@material-ui/icons';

@@ -1,6 +1,10 @@
 export const types = {
     FORM: {
         TASK: 'task',
-        BOARD: 'board'
+        BOARD: 'board',
+        ACTIONS: {
+            CHANGE: "CHANGE",
+
+        }
     }
 };

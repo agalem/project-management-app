@@ -7,8 +7,8 @@ import ScheduleIcon from '@material-ui/icons/Schedule';
 import SubjectIcon from '@material-ui/icons/Subject';
 import CommentIcon from '@material-ui/icons/Comment';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import {SideMenuContext} from "../../contexts/SideMenuContext";
-import {types} from "../../types";
+import {SideMenuContext} from "../../../contexts/SideMenuContext";
+import {types} from "../../../types";
 
 const EditBtn = styled.button`
     position: absolute;

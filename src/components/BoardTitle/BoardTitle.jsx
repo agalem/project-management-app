@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import InputBase from "@material-ui/core/InputBase";
 import CloseIcon from '@material-ui/icons/Close';
-import SmallIconBtn from "../ButtonsWithoutBackground/SmallIconBtn";
+import SmallIconBtn from "../UIComponents/ButtonsWithoutBackground/SmallIconBtn";
 
 const BoardTitleContainer = styled.div`
     font-size: 18px;

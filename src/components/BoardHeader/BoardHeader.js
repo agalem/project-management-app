@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import FavoriteBoardBtn from "../FavoriteBoardBtn/FavoriteBoardBtn";
 
 import BoardTitle from '../BoardTitle/BoardTitle';
-import IconBtn from "../BackgroundButtons/IconBtn";
+import IconBtn from "../UIComponents/BackgroundButtons/IconBtn";
 import StarBorderIcon from '@material-ui/icons/StarBorder'
 
 const HeaderContainer = styled.div`
