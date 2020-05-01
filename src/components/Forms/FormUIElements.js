@@ -6,22 +6,24 @@ const FormTitle = styled.h2`
     max-width: 93%;
 `;
 
+const FormContainer = styled.div`
+    
+`;
+
 const TextInput = styled.input`
     display: block;
     margin: 5px 0;
     height: 25px;
-    width: 250px;
+    width: calc(100% - 5px);
     border: 1px solid #60a4f7;
-    border-radius: 4px;
 `;
 
 const TextArea = styled.textarea`
     display: block;
     margin: 5px 0;
     height: 75px;
-    width: 250px;
+    width: calc(100% - 5px);
     border: 1px solid #60a4f7;
-    border-radius: 4px;
 `;
 
 const StyledCirclePicker = styled(CirclePicker)`
@@ -81,24 +83,32 @@ const Row = styled.div`
 
 const BtnSmall = styled(Button)`
     background-color: #fff;
-    border: none;
+    border: ${props => props.border ? '1px solid #60a4f7' : 'none'};
     border-radius: 0px;
     box-shadow: none;
     color: #60a4f7;
     margin: 0;
+    margin-left: 5px;
+    padding: ${props => props.narrow ? '2px' : ''};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    svg {
+        font-size: ${props => props.smallIcon ? '15px' : ''};
+    }
 `;
 
 const SubtaskList = styled.ul`
     list-style: none;
     padding-left: 0;
-    width: 240px;
+    width: calc(100% - 10px);
     height: 100%;
 `;
 
 const Subtask = styled.li`
     display: block;
     border: 1px solid #60a4f7;
-    border-radius: 4px;
     width: 100%;
     padding:5px;  
     cursor: pointer;
@@ -146,10 +156,40 @@ const Comment = styled.div`
     padding: 10px;
     margin-bottom: 10px;
     border: 1px solid #60a4f7;
-    width: 230px;
+    width: calc(100% - 20px);
     border-radius: 8px;
     -moz-border-radius-bottomleft: 0;
     border-bottom-left-radius: 0;
 `;
 
-export {TextInput, TextArea, StyledCirclePicker, SubmitBtn, BtnsRow, Button, DateInput, Row, BtnSmall, Subtask, SubtaskList, Comment, SubtaskButton, SubtaskBtnsContainer, SubtaskText}
+const BaseInput = styled.input`
+    border: 1px solid #60a4f7;
+    height: 20px;
+    width: 100%;
+    margin-right: 5px;
+`;
+
+const Label = styled.label`
+    width: 100%;
+`;
+
+export {
+    FormContainer,
+    TextInput,
+    TextArea,
+    StyledCirclePicker,
+    SubmitBtn,
+    BtnsRow,
+    Button,
+    DateInput,
+    Row,
+    BtnSmall,
+    Subtask,
+    SubtaskList,
+    Comment,
+    SubtaskButton,
+    SubtaskBtnsContainer,
+    SubtaskText,
+    BaseInput,
+    Label
+}

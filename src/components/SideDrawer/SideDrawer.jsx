@@ -2,7 +2,7 @@ import React, {useContext} from "react";
 import styled from "styled-components";
 
 import {SideMenuContext} from "../../contexts/SideMenuContext";
-import TaskForm from "../Forms/TaskForm";
+import TaskForm from "../Forms/TaskForm/TaskForm";
 
 import Hidden from "@material-ui/core/Hidden";
 import Drawer from "@material-ui/core/Drawer";

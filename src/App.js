@@ -13,12 +13,13 @@ function App() {
       <Router>
           <Switch>
               <Route exact path={'/'}>
-                  <HomePage/>
+                  {/*<HomePage/>*/}
+                  <BoardPage/>
               </Route>
               <Route path={'/auth'}>
                   <AuthPage/>
               </Route>
-              <Route path={"/u1/board-1"}>
+              <Route path={"/u1/"}>
                   <BoardPage/>
               </Route>
               <Redirect to={"/auth"}/>

@@ -27,4 +27,10 @@ export const form_inital = {
     ],
     subtaskOrder: ['subtask-1', 'subtask-2', "subtask-3", "subtask-4"],
     commentOrder: ['comment-1', 'comment-2']
-}
+};
+
+export const generateId = (currentData, prefix) => {
+    const newIndex = currentData.length + 1;
+
+    return `${prefix}-${newIndex}`;
+};

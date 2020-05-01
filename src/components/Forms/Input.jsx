@@ -3,9 +3,24 @@ import styled from "styled-components";
 
 import { TextArea } from "./FormUIElements";
 import {types} from "../../types";
+import {validate} from "../../util/validators";
 
 const FormControl = styled.div`
-    border: ${props => props.isValid ? '10px solid red' : 'none'}
+    input {
+        border-color: ${props => props.isValid ? '#60a4f7' : 'red'};
+        background: ${props => props.isValid ? 'inherit' : '#ffe0e0' };
+    }
+`;
+
+const FormControlLabel = styled.label`
+    color: ${props => props.isValid ? 'inherit' : 'red'}
+`;
+
+const Error = styled.p`
+    color: ${props => props.isValid ? 'inherit' : 'red'};
+    margin-top: 0px;
+    padding: 0px;
+    margin-bottom: 10px;
 `;
 
 const inputReducer = (state, action) => {
@@ -14,12 +29,12 @@ const inputReducer = (state, action) => {
             return {
                 ...state,
                 value: action.val,
-                isValid: true
+                isValid: validate(action.val, action.validators)
             };
         default:
             return state;
     }
-}
+};
 
 const Input  = props => {
 
@@ -28,7 +43,11 @@ const Input  = props => {
     const InputType = props.ComponentType;
 
     const changeHandler = e => {
-        dispatch({type: types.FORM.ACTIONS.CHANGE, val: e.target.value});
+        dispatch({
+            type: types.FORM.ACTIONS.CHANGE,
+            val: e.target.value,
+            validators: props.validators
+        });
     };
 
     const element = (props.element === 'input') ?
@@ -46,9 +65,13 @@ const Input  = props => {
         />
 
     return (
-        <FormControl isValid={!inputState.isValid}>
-            <label htmlFor={props.id}>{props.label}</label>
+        <FormControl isValid={inputState.isValid}>
+            <FormControlLabel htmlFor={props.id} isValid={inputState.isValid}>{props.label}</FormControlLabel>
             {element}
+            {
+                !inputState.isValid &&
+                <Error>{props.errorText}</Error>
+            }
         </FormControl>
     )
 
