@@ -1,8 +1,8 @@
-import React, { useReducer } from "react";
+import React, {useEffect, useReducer} from "react";
 import styled from "styled-components";
 
 import { TextArea } from "./FormUIElements";
-import {types} from "../../types";
+import {types} from "../../util/types";
 import {validate} from "../../util/validators";
 
 const FormControl = styled.div`
@@ -31,6 +31,16 @@ const inputReducer = (state, action) => {
                 value: action.val,
                 isValid: validate(action.val, action.validators)
             };
+        case types.FORM.ACTIONS.FOCUS:
+            return {
+                ...state,
+                isTouched: true
+            };
+        case types.FORM.ACTIONS.BLUR:
+            return {
+                ...state,
+                isTouched: true
+            };
         default:
             return state;
     }
@@ -38,9 +48,20 @@ const inputReducer = (state, action) => {
 
 const Input  = props => {
 
-    const [inputState, dispatch] = useReducer(inputReducer, {value: '', isValid: false});
+    const [inputState, dispatch] = useReducer(inputReducer, {
+        value: '',
+        isValid: (props.validators.length === 0),
+        isTouched: false
+    });
 
     const InputType = props.ComponentType;
+
+    const {id, onInput} = props;
+    const {value, isValid} = inputState;
+
+    useEffect(() => {
+        onInput(id, value, isValid);
+    }, [id, value, isValid, onInput]);
 
     const changeHandler = e => {
         dispatch({
@@ -50,26 +71,37 @@ const Input  = props => {
         });
     };
 
+    const blurHandler = () => {
+        if (props.validators.length === 0) {
+            return;
+        }
+        dispatch({
+            type: types.FORM.ACTIONS.BLUR
+        });
+    };
+
     const element = (props.element === 'input') ?
         <InputType id={props.id}
                    type={props.type}
                    placeholder={props.placeholder}
                    onChange={changeHandler}
+                   onBlur={blurHandler}
                    value={inputState.value}
         /> :
         <TextArea id={props.id}
                   rows={props.rows || 3}
                   placeholder={props.placeholder}
                   onChange={changeHandler}
+                  onBlur={blurHandler}
                   value={inputState.value}
-        />
+        />;
 
     return (
-        <FormControl isValid={inputState.isValid}>
-            <FormControlLabel htmlFor={props.id} isValid={inputState.isValid}>{props.label}</FormControlLabel>
+        <FormControl isValid={(!(!inputState.isValid && inputState.isTouched))}>
+            <FormControlLabel htmlFor={props.id} isValid={(!(!inputState.isValid && inputState.isTouched))}>{props.label}</FormControlLabel>
             {element}
             {
-                !inputState.isValid &&
+                (!inputState.isValid && inputState.isTouched) &&
                 <Error>{props.errorText}</Error>
             }
         </FormControl>

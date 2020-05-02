@@ -25,10 +25,10 @@ const StyledLink = styled(Link)`
 `;
 
 const TextIconLink = props => {
-    const {Icon, text, color, hoverColor, hoverBackground} = props;
+    const {Icon, text, color, hovercolor, hoverbackground} = props;
 
     return (
-        <StyledLink href={'/'} color={color} hoverColor={hoverColor} hoverBackground={hoverBackground}>
+        <StyledLink href={'/'} color={color} hoverColor={hovercolor} hoverBackground={hoverbackground}>
             <Icon/>
             {text}
         </StyledLink>

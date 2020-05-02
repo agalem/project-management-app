@@ -8,7 +8,7 @@ import SubjectIcon from '@material-ui/icons/Subject';
 import CommentIcon from '@material-ui/icons/Comment';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import {SideMenuContext} from "../../../contexts/SideMenuContext";
-import {types} from "../../../types";
+import {types} from "../../../util/types";
 
 const EditBtn = styled.button`
     position: absolute;
@@ -78,15 +78,19 @@ const RowContainer = styled.span`
     }
 `;
 
-const SmallIcon = props => {
-    const {Icon, isInside} = props;
-
-    const StyledIcon = styled(Icon)`
+const StyledIcon = styled.span`
+      svg {
         font-size: 17px !important;
         margin-right: ${props => props.isinside ? '0' : '10px'};
-    `;
+        display: flex;
+        align-items: center;
+      }
+`;
 
-    return <StyledIcon isinside={isInside ? 1 : 0}/>
+
+const SmallIcon = props => {
+    const {Icon, isInside} = props;
+    return <StyledIcon isinside={isInside ? 1 : 0}><Icon/></StyledIcon>
 };
 
 const Task = (props) => {
@@ -115,7 +119,7 @@ const Task = (props) => {
                     <EditBtn onClick={handleClick}>
                         <StyledEditIcon/>
                     </EditBtn>
-                    {task.content}
+                    {task.title}
                     <TaskFooter>
                         <RowContainer>
                             <SmallIcon Icon={ScheduleIcon} isInside/>

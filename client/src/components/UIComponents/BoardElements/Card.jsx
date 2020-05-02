@@ -40,26 +40,6 @@ const TaskList = styled.div`
     min-height: 50px;
 `;
 
-/*
-overflow-y: scroll;
-    overflow: -moz-scrollbars-vertical;
-    min-height: 150px;
-    -webkit-overflow-scrolling: touch;
-    -webkit-transform: translateZ(0);
-    -webkit-overflow-scrolling: initial;
-    &::-webkit-scrollbar {
-        width: 8px;
-    }
-    &::-webkit-scrollbar-track-piece {
-        background-color: ${props => props.isScrollable ? 'rgba(9,30,66,.08)' : 'transparent'};
-        border-radius: 5px;
-    }
-    &::-webkit-scrollbar-thumb {
-        background: #babdc4;
-        border-radius: 5px;
-    }
- */
-
 const StyledInput = styled(InputBase)`
     width: 100%;
     background-color: #fff;
@@ -132,8 +112,8 @@ const Card = (props) => {
             <CardFooter>
                 <TextIconLink Icon={AddIcon} text={'Add new task'}
                               color={'#5e6c84'}
-                              hoverColor={'#172b4d'}
-                              hoverBackground={'rgba(9,30,66,.08)'}
+                              hovercolor={'#172b4d'}
+                              hoverbackground={'rgba(9,30,66,.08)'}
                 />
             </CardFooter>
         </CardContainer>

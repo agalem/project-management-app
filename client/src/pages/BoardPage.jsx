@@ -134,6 +134,6 @@ const BoardPage = () => {
             </PageContainer>
         </React.Fragment>
     )
-}
+};
 
 export default BoardPage;

@@ -4,7 +4,11 @@ export const types = {
         BOARD: 'board',
         ACTIONS: {
             CHANGE: "CHANGE",
-
+            FOCUS: "FOCUS",
+            BLUR: "BLUR"
+        },
+        INPUT: {
+            CHANGE: "INPUT_CHANGE"
         }
     }
 };

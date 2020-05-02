@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
-import {BtnSmall, Comment, Row, Label, BaseInput} from "../../FormUIElements";
+import {BtnSmall, Comment, Row, Label, BaseInput, CommentTextContainer, CommentBtnsContainer, CommentButton} from "../../FormUIElements";
 import {form_inital, generateId} from "../../subtasks-initial-data";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 const NewCommentForm = props => {
     const { addComment } = props;
@@ -49,6 +50,16 @@ const Comments = props => {
         setComments(newComments);
     };
 
+    const deleteComment = commentId => e => {
+        e.preventDefault();
+
+        const newComments = Array.from(comments).filter((comment) => {
+            return comment.id !== commentId;
+        });
+
+        setComments(newComments);
+    };
+
     return (
         <Label>
             <Row>
@@ -68,7 +79,12 @@ const Comments = props => {
             }
             {comments.map((comment, index) => {
                 return <Comment key={index}>
-                    { comment.content }
+                    <CommentTextContainer>{ comment.content }</CommentTextContainer>
+                    <CommentBtnsContainer>
+                        <CommentButton onClick={deleteComment(comment.id)}>
+                            <DeleteIcon/>
+                        </CommentButton>
+                    </CommentBtnsContainer>
                 </Comment>
             })}
         </Label>

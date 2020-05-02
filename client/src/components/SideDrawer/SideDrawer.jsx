@@ -4,10 +4,6 @@ import styled from "styled-components";
 import {SideMenuContext} from "../../contexts/SideMenuContext";
 import TaskForm from "../Forms/TaskForm/TaskForm";
 
-import Hidden from "@material-ui/core/Hidden";
-import Drawer from "@material-ui/core/Drawer";
-import Task from "../UIComponents/BoardElements/Task";
-
 const FormContainer = styled.div`
     position: relative;
     width: ${props => props.isVisible ? '380px' : '0px'};
@@ -29,7 +25,9 @@ const SideDrawer = () => {
 
     return (
         <FormContainer isVisible={sideMenuContext.isVisible}>
-            <TaskForm/>
+            <TaskForm
+                taskId={sideMenuContext.taskId}
+            />
         </FormContainer>
     )
 };

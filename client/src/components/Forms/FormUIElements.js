@@ -160,6 +160,41 @@ const Comment = styled.div`
     border-radius: 8px;
     -moz-border-radius-bottomleft: 0;
     border-bottom-left-radius: 0;
+    position: relative;
+`;
+
+const CommentTextContainer = styled.div`
+    max-width: 93%;
+`;
+
+const CommentBtnsContainer = styled.div`
+    position: absolute;
+    top: 0;
+    right: 0;
+`;
+
+const CommentButton = styled.button`
+border: none;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    margin: 0;
+    background: rgba(0,0,0,0.2);
+    margin-right: 5px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    cursor: pointer;
+    & svg {
+        height: 16px;
+        position: relative;
+        left: -2px;
+        color: rgba(0,0,0,0.6);
+    }
+    &:hover {
+        & svg {
+            color: #000;
+        }
+    }
 `;
 
 const BaseInput = styled.input`
@@ -187,9 +222,12 @@ export {
     Subtask,
     SubtaskList,
     Comment,
+    CommentTextContainer,
+    CommentBtnsContainer,
+    CommentButton,
     SubtaskButton,
     SubtaskBtnsContainer,
     SubtaskText,
     BaseInput,
-    Label
+    Label,
 }

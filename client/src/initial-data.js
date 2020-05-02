@@ -1,15 +1,48 @@
 export const initial = {
     tasks: {
-        'task-1': {id: "task-1", content: "Take out the garbage"},
-        'task-2': {id: "task-2", content: "Watch my favorite show"},
-        'task-3': {id: "task-3", content: "Charge my phone"},
-        'task-4': {id: "task-4", content: "Cook dinner"},
-        'task-5': {id: "task-5", content: "Cook dinner"},
-        'task-6': {id: "task-6", content: "Cook dinner"},
-        'task-7': {id: "task-7", content: "Cook dinner"},
-        'task-8': {id: "task-8", content: "Cook dinner"},
-        'task-9': {id: "task-9", content: "Cook dinner"},
-        'task-10': {id: "task-10", content: "Cook dinner"},
+        'task-1': {
+            id: "task-1",
+            title: "Take out the garbage",
+            description: "This is just a simple example of a description",
+            date: (new Date()).toString(),
+            subtasksIds: ['subtask-1', 'subtask-2'],
+            commentsIds: ['comment-1']
+        },
+        'task-2': {
+            id: "task-2",
+            title: "Watch my favorite show"
+        },
+        'task-3': {
+            id: "task-3",
+            title: "Charge my phone"
+        },
+        'task-4': {
+            id: "task-4",
+            title: "Cook dinner"
+        },
+        'task-5': {
+            id: "task-5",
+            title: "Cook dinner"
+        },
+        'task-6': {
+            id: "task-6",
+            title: "Cook dinner"},
+        'task-7': {
+            id: "task-7",
+            title: "Cook dinner"
+        },
+        'task-8': {
+            id: "task-8",
+            title: "Cook dinner"
+        },
+        'task-9': {
+            id: "task-9",
+            title: "Cook dinner"
+        },
+        'task-10': {
+            id: "task-10",
+            title: "Cook dinner"
+        },
     },
     columns: {
         'column-1': {

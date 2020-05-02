@@ -1,26 +1,17 @@
-import React, {useState, useEffect, useContext} from "react";
+import React, {useState, useEffect, useContext, useCallback, useReducer} from "react";
 import {toast} from "react-toastify";
 import {
     FormContainer,
     TextInput,
-    TextArea,
     BtnsRow,
     SubmitBtn,
     Button,
-    DateInput,
-    Row,
-    BtnSmall,
-    Subtask,
-    SubtaskList,
-    Comment,
-    SubtaskButton,
-    SubtaskBtnsContainer,
-    SubtaskText,
-    BaseInput
+    DateInput
 } from "../FormUIElements";
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 import {form_inital} from "../subtasks-initial-data";
+import {initial} from "../../../initial-data";
+import {types} from "../../../util/types";
 import {SideMenuContext} from "../../../contexts/SideMenuContext";
 
 import Subtasks from "./Subtasks/Subtasks";
@@ -28,16 +19,72 @@ import Comments from "./Comments/Comments";
 
 import Input from "../Input";
 
-import { VALIDATOR_REQUIRE } from "../../../util/validators";
+import {VALIDATOR_REQUIRE} from "../../../util/validators";
 
-const TaskForm = () => {
+const taskFormReducer = (state, action) => {
+    switch(action.type) {
+        case types.FORM.INPUT.CHANGE:
+            let formIsValid = true;
+            for (const inputId in state.inputs) {
+                if(inputId === action.inputId) {
+                    formIsValid = formIsValid && action.isValid;
+                } else {
+                    formIsValid = formIsValid && state.inputs[inputId].isValid;
+                }
+            }
+            return {
+                ...state,
+                inputs: {
+                    ...state.inputs,
+                    [action.inputId]: {
+                        value: action.value,
+                        isValid: action.isValid
+                    }
+                },
+                isValid: formIsValid
+            };
+        default:
+            return state;
+    }
+};
+
+const TaskForm = props => {
     const sideMenuContext = useContext(SideMenuContext);
 
-    const [titleValue, setTitleValue] = useState("");
+    const [taskFormState, dispatch] = useReducer(taskFormReducer, {
+        inputs: {
+            title: {
+                value: '',
+                isValid: false
+            },
+            description: {
+                value: '',
+                isValid: true
+            }
+        },
+        isValid: false
+    });
+
+    const [title, setTitle] = useState("");
+    const [description, setDesctiption] = useState("");
     const [startDate, setStartDate] = useState(new Date());
-    const [subtasks, setSubtasks] = useState(form_inital.subtasks);
+    const [subtasksIds, setSubtasksIds] = useState(form_inital.subtasks);
     const [subtasksOrder, setSubtasksOrder] = useState(form_inital.subtaskOrder);
-    const [comments, setComments] = useState(form_inital.comments);
+    const [commentsIds, setCommentsIds] = useState(form_inital.comments);
+
+    useEffect(() => {
+        const editedTask = initial.tasks[props.taskId];
+
+        if (editedTask) {
+            const { title, description, date, subtasksIds, commentsIds } = editedTask;
+            setTitle(title);
+            setStartDate(Date.parse(date));
+            setDesctiption(description);
+            setSubtasksIds(subtasksIds);
+            setSubtasksOrder(subtasksIds);
+            setCommentsIds(commentsIds);
+        }
+    }, [props.taskId]);
 
 
     const handleSubmit = (e) => {
@@ -45,47 +92,59 @@ const TaskForm = () => {
         toast("Submitted");
     };
 
-    useEffect(() => {
-        console.log(subtasks);
-
-    }, []);
-
     const handleClose = (e) => {
         e.preventDefault();
         sideMenuContext.setSideMenuVisible(false);
     };
 
+    const inputHandler = useCallback((id, value, isValid) => {
+        console.log(isValid);
+        dispatch({
+            type: types.FORM.INPUT.CHANGE,
+            value: value,
+            isValid: isValid,
+            inputId: id
+        });
+    }, []);
+
     return (
         <FormContainer>
             <form onSubmit={handleSubmit}>
                 <BtnsRow style={{marginBottom: 15}}>
-                    <SubmitBtn type="submit" value="Apply" />
+                    <SubmitBtn type="submit" value="Apply" disabled={!taskFormState.isValid} />
                     <Button onClick={handleClose}>Close</Button>
                 </BtnsRow>
                 <Input
                     ComponentType={TextInput}
+                    editedValue={title}
                     element={"input"}
                     id={"title"}
                     type="text"
                     label={"Title"}
                     validators={[VALIDATOR_REQUIRE()]}
-                    errorText={"Please enter a valid text"}
+                    errorText={"Please enter a valid title"}
+                    onInput={inputHandler}
                 />
-                <label>
-                    Description
-                    <TextArea />
-                </label>
-                <label>
-                    Date
-                    <DateInput
-                        type="datetime-local"
-                        defaultValue={startDate}
-                    />
-                </label>
+                <Input
+                    id={"description"}
+                    type={"textarea"}
+                    label={"Description"}
+                    validators={[]}
+                    onInput={inputHandler}
+                />
+                <Input
+                    ComponentType={DateInput}
+                    element={"input"}
+                    id={"date"}
+                    type={"date"}
+                    label={"Date"}
+                    validators={[]}
+                    onInput={inputHandler}
+                />
                 <Subtasks/>
                 <Comments/>
                 <BtnsRow style={{ marginBottom: 40 }}>
-                    <SubmitBtn type="submit" value="Apply" />
+                    <SubmitBtn type="submit" value="Apply" disabled={!taskFormState.isValid}/>
                     <Button onClick={handleClose}>Close</Button>
                 </BtnsRow>
             </form>
