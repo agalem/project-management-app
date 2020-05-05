@@ -21,12 +21,18 @@ export const form_inital = {
             done: false
         }
     },
-    comments: [
-        {id: "comment-1", content: "This is quite entertaining, I should do this more often"},
-        {id: "comment-2", content: "This is another test comment, I hope it works"}
-    ],
+    comments: {
+        "comment-1": {
+            id: "comment-1",
+            content: "This is quite entertaining, I should do this more often",
+        },
+        "comment-2": {
+            id: "comment-2",
+            content: "This is another test comment, I hope it works"
+        }
+    },
     subtaskOrder: ['subtask-1', 'subtask-2', "subtask-3", "subtask-4"],
-    commentOrder: ['comment-1', 'comment-2']
+    commentsOrder: ['comment-1', 'comment-2']
 };
 
 export const generateId = (currentData, prefix) => {

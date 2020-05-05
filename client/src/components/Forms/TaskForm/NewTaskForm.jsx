@@ -48,7 +48,7 @@ const taskFormReducer = (state, action) => {
     }
 };
 
-const TaskForm = props => {
+const NewTaskForm = props => {
     const sideMenuContext = useContext(SideMenuContext);
 
     const [taskFormState, dispatch] = useReducer(taskFormReducer, {
@@ -59,37 +59,24 @@ const TaskForm = props => {
             },
             description: {
                 value: '',
-                isValid: true
+                isValid: false
+            },
+            date: {
+                value: '',
+                isValid: false
             }
         },
         isValid: false
     });
 
-    const [title, setTitle] = useState("");
-    const [description, setDesctiption] = useState("");
-    const [startDate, setStartDate] = useState(new Date());
-    const [subtasksIds, setSubtasksIds] = useState(form_inital.subtasks);
-    const [subtasksOrder, setSubtasksOrder] = useState(form_inital.subtaskOrder);
-    const [commentsIds, setCommentsIds] = useState(form_inital.comments);
-
-    useEffect(() => {
-        const editedTask = initial.tasks[props.taskId];
-
-        if (editedTask) {
-            const { title, description, date, subtasksIds, commentsIds } = editedTask;
-            setTitle(title);
-            setStartDate(Date.parse(date));
-            setDesctiption(description);
-            setSubtasksIds(subtasksIds);
-            setSubtasksOrder(subtasksIds);
-            setCommentsIds(commentsIds);
-        }
-    }, [props.taskId]);
-
 
     const handleSubmit = (e) => {
         e.preventDefault();
         toast("Submitted");
+
+        //TODO: send data to the server
+
+        console.log(taskFormState.inputs);
     };
 
     const handleClose = (e) => {
@@ -116,7 +103,6 @@ const TaskForm = props => {
                 </BtnsRow>
                 <Input
                     ComponentType={TextInput}
-                    editedValue={title}
                     element={"input"}
                     id={"title"}
                     type="text"
@@ -141,8 +127,12 @@ const TaskForm = props => {
                     validators={[]}
                     onInput={inputHandler}
                 />
-                <Subtasks/>
-                <Comments/>
+                <Subtasks
+                    subtasksIds={[]}
+                />
+                <Comments
+                    commentsIds={[]}
+                />
                 <BtnsRow style={{ marginBottom: 40 }}>
                     <SubmitBtn type="submit" value="Apply" disabled={!taskFormState.isValid}/>
                     <Button onClick={handleClose}>Close</Button>
@@ -152,4 +142,4 @@ const TaskForm = props => {
     )
 };
 
-export default TaskForm;
+export default NewTaskForm;

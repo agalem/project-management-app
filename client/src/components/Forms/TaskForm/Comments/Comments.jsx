@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {BtnSmall, Comment, Row, Label, BaseInput, CommentTextContainer, CommentBtnsContainer, CommentButton} from "../../FormUIElements";
 import {form_inital, generateId} from "../../subtasks-initial-data";
+import { toast } from "react-toastify";
 import DeleteIcon from "@material-ui/icons/Delete";
 
 const NewCommentForm = props => {
@@ -9,6 +10,9 @@ const NewCommentForm = props => {
 
     const handleClick = e => {
         e.preventDefault();
+        if(inputValue.length === 0) {
+            toast.error("Comment cannot be empty");
+        }
         addComment(inputValue);
         setValue('');
     };
@@ -24,7 +28,9 @@ const NewCommentForm = props => {
 };
 
 const Comments = props => {
+    const {commentsIds} = props;
     const [comments, setComments] = useState(form_inital.comments);
+    const [commentsOrder, setCommentsOrder] = useState(commentsIds);
     const [newCommentFormVisible, setNewCommentFormVisible] = useState(false);
 
     const showForm = e => {
@@ -38,26 +44,39 @@ const Comments = props => {
     };
 
     const addComment = content => {
-        const newComments = Array.from(comments);
-        const newId = generateId(newComments, "commment")
+        const newComments = {...comments};
+        const props = Object.getOwnPropertyNames(newComments);
+        const newId = generateId(props, "commment");
+        const newCommentsOrder = Array.from(commentsOrder);
+        newCommentsOrder.unshift(newId);
 
         const comment = {
             content,
             id: newId
         };
 
-        newComments.unshift(comment);
+        setCommentsOrder(newCommentsOrder);
+
+        newComments[newId] = comment;
         setComments(newComments);
+
+        //TODO: call to server
     };
 
     const deleteComment = commentId => e => {
         e.preventDefault();
 
-        const newComments = Array.from(comments).filter((comment) => {
-            return comment.id !== commentId;
-        });
+        const newCommentsOrder = Array.from(commentsOrder)
+            .filter(element => {
+                return element !==commentId;
+            });
+        const newComments = {...comments};
+        delete newComments[commentId];
 
+        setCommentsOrder(newCommentsOrder);
         setComments(newComments);
+
+        //TODO: call to server
     };
 
     return (
@@ -77,16 +96,20 @@ const Comments = props => {
                 newCommentFormVisible &&
                     <NewCommentForm addComment={addComment}/>
             }
-            {comments.map((comment, index) => {
-                return <Comment key={index}>
-                    <CommentTextContainer>{ comment.content }</CommentTextContainer>
-                    <CommentBtnsContainer>
-                        <CommentButton onClick={deleteComment(comment.id)}>
-                            <DeleteIcon/>
-                        </CommentButton>
-                    </CommentBtnsContainer>
-                </Comment>
-            })}
+            {
+                commentsOrder.map(commentId => {
+                    const comment = comments[commentId];
+
+                    return <Comment key={comment.id}>
+                        <CommentTextContainer>{comment.content}</CommentTextContainer>
+                        <CommentBtnsContainer>
+                            <CommentButton onClick={deleteComment(comment.id)}>
+                                <DeleteIcon/>
+                            </CommentButton>
+                        </CommentBtnsContainer>
+                    </Comment>
+                })
+            }
         </Label>
     )
 };

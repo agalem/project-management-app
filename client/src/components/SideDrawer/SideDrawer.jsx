@@ -1,8 +1,9 @@
-import React, {useContext} from "react";
+import React, {useContext, useEffect} from "react";
 import styled from "styled-components";
 
 import {SideMenuContext} from "../../contexts/SideMenuContext";
-import TaskForm from "../Forms/TaskForm/TaskForm";
+import NewTaskForm from "../Forms/TaskForm/NewTaskForm";
+import UpdateTaskForm from "../Forms/TaskForm/UpdateTaskForm";
 
 const FormContainer = styled.div`
     position: relative;
@@ -25,9 +26,14 @@ const SideDrawer = () => {
 
     return (
         <FormContainer isVisible={sideMenuContext.isVisible}>
-            <TaskForm
-                taskId={sideMenuContext.taskId}
-            />
+            {
+                sideMenuContext.isNewTask &&
+                <NewTaskForm/>
+            }
+            {
+                !sideMenuContext.isNewTask &&
+                <UpdateTaskForm taskId={sideMenuContext.taskId}/>
+            }
         </FormContainer>
     )
 };

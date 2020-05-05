@@ -1,11 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import FavoriteBoardBtn from "../FavoriteBoardBtn/FavoriteBoardBtn";
 
 import BoardTitle from '../BoardTitle/BoardTitle';
-import IconBtn from "../UIComponents/BackgroundButtons/IconBtn";
-import StarBorderIcon from '@material-ui/icons/StarBorder'
 
 const HeaderContainer = styled.div`
     width: 90%;
@@ -15,11 +13,18 @@ const HeaderContainer = styled.div`
     align-items: center;
 `;
 
+const BoardHeader = props => {
+    const { title } = props;
+    const [boardTitle, setBoardTitle] = useState(title);
 
-const BoardHeader = () => {
+    const setNewTitle = newTitle => {
+        setBoardTitle(newTitle);
+        //TODO: call to server
+    };
+
     return (
         <HeaderContainer>
-            <BoardTitle title={'aplikacja kanban'}/>
+            <BoardTitle title={boardTitle} setNewTitle={setNewTitle}/>
             <FavoriteBoardBtn/>
         </HeaderContainer>
     )

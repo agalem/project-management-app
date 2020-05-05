@@ -115,7 +115,7 @@ const BoardPage = () => {
             <PageContainer>
                 <SideMenuProvider>
                     <Content>
-                        <BoardHeader/>
+                        <BoardHeader title={"Aplikacja kanban"}/>
                         <CardsContainer>
                             <DragDropContext
                                 onDragEnd={onDragEnd}

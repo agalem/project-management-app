@@ -33,14 +33,35 @@ const StyledInput = styled(InputBase)`
 
 const BoardTitle = props => {
     const [isEditable, setEditable] = useState(false);
-    const {title} = props;
+    const {title, setNewTitle} = props;
+
+    const [boardTitle, setBoardTitle] = useState(title);
+    const [newBoardTitle, setNewBoardTitle] = useState(boardTitle);
 
     const makeEditable = () => {
         setEditable(true);
     };
 
     const endEdition = () => {
+        if (newBoardTitle.length === 0) {
+            console.log("Wrong title length");
+            setNewBoardTitle(boardTitle);
+        } else {
+            console.log(newBoardTitle);
+            setBoardTitle(newBoardTitle);
+            setNewTitle(newBoardTitle);
+        }
         setEditable(false);
+    };
+
+    const handleTitleChange = e => {
+        setNewBoardTitle(e.target.value);
+    };
+
+    const handleKeyPressed = e => {
+        if(e.key === "Enter") {
+            endEdition();
+        }
     };
 
     return (
@@ -51,10 +72,12 @@ const BoardTitle = props => {
             {isEditable &&
                 <React.Fragment>
                     <StyledInput
-                        value={title}
+                        value={newBoardTitle}
                         inputProps={{
                             style: {fontSize: 18, padding: 1, paddingLeft: 10}
                         }}
+                        onChange={handleTitleChange}
+                        onKeyDown={handleKeyPressed}
                     />
 
                     <SmallIconBtn Icon={CloseIcon} label={'abort title edition'} onClick={endEdition}/>

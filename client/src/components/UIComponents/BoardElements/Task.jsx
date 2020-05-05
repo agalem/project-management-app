@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, {useContext, useEffect, useState} from "react";
 import styled from 'styled-components';
 import {Draggable} from "react-beautiful-dnd";
 
@@ -98,13 +98,50 @@ const Task = (props) => {
 
     const {task, index} = props;
 
+    const [taskId, setTaskId] = useState('');
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const [date, setDate] = useState('');
+    const [subtasksIds, setSubtasksIds] = useState([]);
+    const [doneSubtasksIds, setDoneSubtasksIds] = useState([]);
+    const [commentsIds, setCommentsIds] = useState([]);
+
+    useEffect(() => {
+
+        if (task.id) {
+            setTaskId(task.id);
+        }
+        if (task.title) {
+            setTitle(task.title);
+        }
+        if (task.description) {
+            setDescription(task.description);
+        }
+        if (task.date) {
+            const d = Date.parse(task.date);
+            const day = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(d);
+            const month = new Intl.DateTimeFormat('en', {month: 'short'}).format(d);
+            const date = `${day} ${month}`;
+            setDate(date);
+        }
+        if (task.subtasksIds) {
+            setSubtasksIds(task.subtasksIds);
+        }
+        if (task.doneSubtasksIds) {
+            setDoneSubtasksIds(task.doneSubtasksIds);
+        }
+        if (task.commentsIds) {
+            setCommentsIds(task.commentsIds);
+        }
+
+    }, [task.id, task.title, task.description, task.date, task.subtasksIds, task.doneSubtasksIds, task.commentsIds]);
+
     const handleClick = (e) => {
         e.preventDefault();
         sideMenuContext.setSideMenuVisible(true);
-        sideMenuContext.setSideMenuContentType(types.FORM.TASK);
+        sideMenuContext.setSideMenuIsNewTask(false);
 
-        const clickedId = task.id;
-        sideMenuContext.setSideMenuTaskId(clickedId);
+        sideMenuContext.setSideMenuTaskId(taskId);
     };
 
     return (
@@ -119,21 +156,33 @@ const Task = (props) => {
                     <EditBtn onClick={handleClick}>
                         <StyledEditIcon/>
                     </EditBtn>
-                    {task.title}
+                    {title}
                     <TaskFooter>
-                        <RowContainer>
-                            <SmallIcon Icon={ScheduleIcon} isInside/>
-                            <p>19 kwi</p>
-                        </RowContainer>
-                        <SmallIcon Icon={SubjectIcon}/>
-                        <RowContainer>
-                            <SmallIcon Icon={CommentIcon} isInside/>
-                            <p>1</p>
-                        </RowContainer>
-                        <RowContainer>
-                            <SmallIcon Icon={CheckCircleIcon} isInside/>
-                            <p>0/2</p>
-                        </RowContainer>
+                        {
+                            date &&
+                            <RowContainer>
+                                <SmallIcon Icon={ScheduleIcon} isInside/>
+                                <p>{date}</p>
+                            </RowContainer>
+                        }
+                        {
+                            description &&
+                            <SmallIcon Icon={SubjectIcon}/>
+                        }
+                        {
+                            commentsIds.length > 0 &&
+                            <RowContainer>
+                                <SmallIcon Icon={CommentIcon} isInside/>
+                                <p>{commentsIds.length}</p>
+                            </RowContainer>
+                        }
+                        {
+                            subtasksIds.length > 0 &&
+                            <RowContainer>
+                                <SmallIcon Icon={CheckCircleIcon} isInside/>
+                                <p>{doneSubtasksIds.length}/{subtasksIds.length}</p>
+                            </RowContainer>
+                        }
                     </TaskFooter>
                 </TaskContainer>
             )}

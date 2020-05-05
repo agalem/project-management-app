@@ -1,7 +1,7 @@
 import React, { createContext, useState, useContext } from "react";
 
 export const SideMenuContext = createContext({
-    isVisible: true,
+    isVisible: false,
     contentType: null,
     taskId: '',
     isNewTask: false,

@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
+import {toast} from "react-toastify";
 import {
     BaseInput,
     Row,
@@ -16,7 +17,6 @@ import DoneIcon from "@material-ui/icons/Done";
 import ClearIcon from "@material-ui/icons/Clear";
 import {form_inital} from "../../subtasks-initial-data";
 import { generateId } from "../../subtasks-initial-data";
-import Input from "../../Input";
 
 const NewSubtask = props => {
     const { addSubtask } = props;
@@ -24,6 +24,10 @@ const NewSubtask = props => {
 
     const handleClick = e => {
         e.preventDefault();
+        if (inputValue.length === 0) {
+            toast.error("Subtask cannot be empty");
+            return;
+        }
         addSubtask(inputValue);
         setValue('');
     };
@@ -39,9 +43,10 @@ const NewSubtask = props => {
 };
 
 const Subtasks = props => {
+    const {subtasksIds} = props;
     const [newTaskFormVisible, setNewTaskFormVisible] = useState(false);
     const [subtasks, setSubtasks] = useState(form_inital.subtasks);
-    const [subtasksOrder, setSubtasksOrder] = useState(form_inital.subtaskOrder);
+    const [subtasksOrder, setSubtasksOrder] = useState(subtasksIds);
 
     const showForm = e => {
         e.preventDefault();
@@ -72,11 +77,11 @@ const Subtasks = props => {
         newSubtasksIds.splice(destination.index, 0, draggableId);
 
         setSubtasksOrder(newSubtasksIds);
+
+        //TODO: call to server
     };
 
     const addNewSubtask = newSubtaskContent => {
-
-
         const newSubtasks = {...subtasks};
         const props = Object.getOwnPropertyNames(newSubtasks);
         const newId = generateId(props, "subtask");
@@ -92,6 +97,8 @@ const Subtasks = props => {
 
         setSubtasks(newSubtasks);
         setSubtasksOrder(newOrder);
+
+        // TODO: call to server
     };
 
     const removeSubtask = subtaskId => e => {
@@ -103,6 +110,8 @@ const Subtasks = props => {
         newSubtasksIds.splice(subtaskIndex, 1);
 
         setSubtasksOrder(newSubtasksIds);
+
+        // TODO: call to server
     };
 
     const markSubtaskDone = subtaskId => e => {
@@ -113,6 +122,8 @@ const Subtasks = props => {
         newSubtasks[subtaskId].done = true;
 
         setSubtasks(newSubtasks);
+
+        // TODO: call to server
     };
 
     const unmarkSubtaskDone = subtaskId => e => {
@@ -123,6 +134,8 @@ const Subtasks = props => {
         newSubtasks[subtaskId].done = false;
 
         setSubtasks(newSubtasks);
+
+        // TODO: call to server
     };
 
     return (
@@ -156,36 +169,37 @@ const Subtasks = props => {
                                     <NewSubtask addSubtask={addNewSubtask}/>
                             }
 
-                            {subtasksOrder.map((subtaskId, index) => {
-                                const subtask = subtasks[subtaskId];
+                            {
+                                subtasksOrder.map((subtaskId, index) => {
+                                    const subtask = subtasks[subtaskId];
 
-                                return (
-                                    <Draggable key={subtaskId} draggableId={subtaskId} index={index}>
-                                        {(provided, snapshot) => (
-                                            <Subtask
-                                                ref={provided.innerRef}
-                                                {...provided.draggableProps}
-                                                {...provided.dragHandleProps}
-                                                done={subtask.done}
-                                            >
-                                                <SubtaskText done={subtask.done}>
-                                                    {subtask.content}
-                                                </SubtaskText>
+                                    return (
+                                        <Draggable key={subtaskId} draggableId={subtaskId} index={index}>
+                                            {(provided, snapshot) => (
+                                                <Subtask
+                                                    ref={provided.innerRef}
+                                                    {...provided.draggableProps}
+                                                    {...provided.dragHandleProps}
+                                                    done={subtask.done}
+                                                >
+                                                    <SubtaskText done={subtask.done}>
+                                                        {subtask.content}
+                                                    </SubtaskText>
 
-                                                <SubtaskBtnsContainer>
-                                                    <SubtaskButton onClick={removeSubtask(subtaskId)}>
-                                                        <DeleteIcon/>
-                                                    </SubtaskButton>
-                                                    <SubtaskButton onClick={subtask.done ? unmarkSubtaskDone(subtaskId) : markSubtaskDone(subtaskId)}>
-                                                        {!subtask.done && <DoneIcon/>}
-                                                        {subtask.done  && <ClearIcon/>}
-                                                    </SubtaskButton>
-                                                </SubtaskBtnsContainer>
-                                            </Subtask>
-                                        )}
-                                    </Draggable>
-                                )
-                            })}
+                                                    <SubtaskBtnsContainer>
+                                                        <SubtaskButton onClick={removeSubtask(subtaskId)}>
+                                                            <DeleteIcon/>
+                                                        </SubtaskButton>
+                                                        <SubtaskButton onClick={subtask.done ? unmarkSubtaskDone(subtaskId) : markSubtaskDone(subtaskId)}>
+                                                            {!subtask.done && <DoneIcon/>}
+                                                            {subtask.done  && <ClearIcon/>}
+                                                        </SubtaskButton>
+                                                    </SubtaskBtnsContainer>
+                                                </Subtask>
+                                            )}
+                                        </Draggable>
+                                    )})
+                            }
                         </SubtaskList>
                     )}
                 </Droppable>
