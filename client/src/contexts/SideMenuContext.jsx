@@ -4,7 +4,7 @@ export const SideMenuContext = createContext({
     isVisible: false,
     contentType: null,
     taskId: '',
-    isNewTask: false,
+    isNewTask: true,
     boardId: '',
 });
 

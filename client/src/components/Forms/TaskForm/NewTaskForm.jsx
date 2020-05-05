@@ -13,6 +13,7 @@ import {form_inital} from "../subtasks-initial-data";
 import {initial} from "../../../initial-data";
 import {types} from "../../../util/types";
 import {SideMenuContext} from "../../../contexts/SideMenuContext";
+import {useTaskForm} from "../../../hooks/TaskFormHook";
 
 import Subtasks from "./Subtasks/Subtasks";
 import Comments from "./Comments/Comments";
@@ -51,23 +52,20 @@ const taskFormReducer = (state, action) => {
 const NewTaskForm = props => {
     const sideMenuContext = useContext(SideMenuContext);
 
-    const [taskFormState, dispatch] = useReducer(taskFormReducer, {
-        inputs: {
-            title: {
-                value: '',
-                isValid: false
-            },
-            description: {
-                value: '',
-                isValid: false
-            },
-            date: {
-                value: '',
-                isValid: false
-            }
+    const [taskFormState, inputHandler] = useTaskForm({
+        title: {
+            value: '',
+            isValid: false
         },
-        isValid: false
-    });
+        description: {
+            value: '',
+            isValid: false
+        },
+        date: {
+            value: '',
+            isValid: false
+        }
+    }, false);
 
 
     const handleSubmit = (e) => {
@@ -84,15 +82,6 @@ const NewTaskForm = props => {
         sideMenuContext.setSideMenuVisible(false);
     };
 
-    const inputHandler = useCallback((id, value, isValid) => {
-        console.log(isValid);
-        dispatch({
-            type: types.FORM.INPUT.CHANGE,
-            value: value,
-            isValid: isValid,
-            inputId: id
-        });
-    }, []);
 
     return (
         <FormContainer>
